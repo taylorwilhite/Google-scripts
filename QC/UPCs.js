@@ -1,8 +1,13 @@
+function commaSplit(event, title) {
+  const arr = event.namedValues[title][0].split(/,\s*/);
+  return arr;
+};
+
 function onFormSubmit(e) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheets()[0];
   
-  var UPCs = e.namedValues['UPC'][0].split(/,\s*/);
+  var UPCs = commaSplit(e, 'UPC');
   var firstrange = e.range;
   var row = firstrange.getRow();
   var range = sheet.getRange(row, 1, 1, 10);
