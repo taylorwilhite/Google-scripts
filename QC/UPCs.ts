@@ -29,7 +29,7 @@ function onFormSubmit(e) {
   if(UPCs.length <= 1){
     return;
   }
-  for(i = 1; i < UPCs.length; i += 1) {
+  for(let i = 1; i < UPCs.length; i += 1) {
     sheet.appendRow([timeStamp, po, supplier, dateRec, tracking, UPCs[i], qty, issue, notes, images]);
   }
 }
