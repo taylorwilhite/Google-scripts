@@ -4,32 +4,38 @@ function commaSplit(event, title) {
 };
 
 function onFormSubmit(e) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheets()[0];
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheets()[0];
   
-  var UPCs = commaSplit(e, 'UPC');
-  var firstrange = e.range;
-  var row = firstrange.getRow();
-  var range = sheet.getRange(row, 1, 1, 10);
-  var UPCell = range.getCell(1, 6);
+  const UPCs = commaSplit(e, 'UPC');
+  const firstrange = e.range;
+  const row = firstrange.getRow();
+  const range = sheet.getRange(row, 1, 1, 10);
+  const UPCell = range.getCell(1, 6);
+  const qtyCell = range.getCell(1, 7);
+  const issueCell = range.getCell(1, 8);
+  const noteCell = range.getCell(1, 9);
   
-  var timeStamp = range.getCell(1, 1).getValue();
-  var po = range.getCell(1, 2).getValue();
-  var supplier = range.getCell(1, 3).getValue();
-  var dateRec = range.getCell(1, 4).getValue();
-  var tracking = range.getCell(1, 5).getValue();
-  var qty = range.getCell(1, 7).getValue();
-  var issue = range.getCell(1, 8).getValue();
-  var notes = range.getCell(1, 9).getValue();
-  var images = range.getCell(1, 10).getValue();
+  const timeStamp = range.getCell(1, 1).getValue();
+  const po = range.getCell(1, 2).getValue();
+  const supplier = range.getCell(1, 3).getValue();
+  const dateRec = range.getCell(1, 4).getValue();
+  const tracking = range.getCell(1, 5).getValue();
+  const qtys = commaSplit(e, 'Qty');
+  const issues = range.getCell(1, 8).getValue().split(/,\s*/); // Split manually because issue is not a named value
+  const notes = commaSplit(e, 'Notes');
+  const images = range.getCell(1, 10).getValue();
   
   
   UPCell.setValue(UPCs[0]);
+  qtyCell.setValue(qtys[0]);
+  issueCell.setValue(issues[0]);
+  noteCell.setValue(notes[0]);
   
   if(UPCs.length <= 1){
     return;
   }
   for(let i = 1; i < UPCs.length; i += 1) {
-    sheet.appendRow([timeStamp, po, supplier, dateRec, tracking, UPCs[i], qty, issue, notes, images]);
+    sheet.appendRow([timeStamp, po, supplier, dateRec, tracking, UPCs[i], qtys[i], issues[i], notes[i], images]);
   }
 }
